@@ -10,8 +10,8 @@
         "start": "nodemon dist/index.js",
         "lint": "eslint . --ext .ts",
         "lint:fix": "eslint . --ext .ts --fix",
-        "format": "prettier --check .",
-        "format:fix": "prettier --write ."
+        "format": "prettier --check src",
+        "format:fix": "prettier --write src"
     },
     "keywords": [],
     "author": "",
