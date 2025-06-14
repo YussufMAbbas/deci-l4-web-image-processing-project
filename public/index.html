@@ -15,11 +15,24 @@
     <main>
         <section>
             <h2>First, upload your image:</h2>
-            <form enctype="multipart/form-data">
+            <form>
                 <input type="file" name="image" accept="image/*" id="image-input" required>
-                <button type="submit" id="upload-submit">Upload Image</button> 
+                <button type="submit" id="upload-submit">Upload Image</button>
             </form>
         </section>
+        <section id="resize-section">
+            <h2>Next, resize your image:</h2>
+            <form id="resize-form">
+                <label for="image">Image</label>
+                <select name="image" id="image-select" required>
+                    <option value="">Select an image</option>
+                </select>
+                <label for="width">Width (px):</label>
+                <input type="number" name="width" id="width" required>
+                <label for="height">Height (px):</label>
+                <input type="number" name="height" id="height" required>
+                <button type="submit">Resize Image</button>
+            </form>
     </main>
     <script src="app.js"></script>
 </body>
