@@ -8,6 +8,8 @@ app.use(express.json());
 
 app.use("/api", router);
 
+app.use("/", express.static("public"));
+
 app.listen(port, () => {
     console.log(`Server has started at http://localhost:${port}.`);
 });
