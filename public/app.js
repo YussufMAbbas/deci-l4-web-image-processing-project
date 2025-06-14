@@ -1,6 +1,10 @@
 const imageInput = document.getElementById("image-input");
 const uploadSubmit = document.getElementById("upload-submit");
 const imageSelect = document.getElementById("image-select");
+const resizeSubmit = document.getElementById("resize-submit");
+const widthInput = document.getElementById("width");
+const heightInput = document.getElementById("height");
+const resizedImage = document.getElementById("resized-image");
 
 function updateImages() {
     fetch("/api/getImages")
@@ -50,5 +54,49 @@ uploadSubmit.addEventListener("click", async (event) => {
     } catch (error) {
         console.error("Error uploading image:", error);
         alert("Failed to upload image. Please try again.");
+    }
+});
+
+resizeSubmit.addEventListener("click", async (event) => {
+    event.preventDefault();
+    const imageName = imageSelect.value;
+    const width = parseInt(widthInput.value, 10);
+    const height = parseInt(heightInput.value, 10);
+
+    if (!imageName) {
+        alert("Please select an image");
+        return;
+    }
+    if (isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
+        alert("Please enter valid dimensions for width and height.");
+        return;
+    }
+
+    try {
+        const response = await fetch("/api/resizeImage", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                imageName,
+                width,
+                height,
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        resizedImage.src = url;
+        resizedImage.alt = `Resized Image - ${imageName}`;
+        resizedImage.style.display = "block";
+        alert("Image resized successfully!");
+    } catch (error) {
+        console.error("Error resizing image:", error);
+        alert("Failed to resize image. Please try again.");
     }
 });
