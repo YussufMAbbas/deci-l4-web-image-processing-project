@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-const port = 3002;
+const port = 3001;
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "../images")));
 app.use("/api", router);
