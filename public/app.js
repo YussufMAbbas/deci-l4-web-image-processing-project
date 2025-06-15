@@ -5,6 +5,7 @@ const resizeSubmit = document.getElementById("resize-submit");
 const widthInput = document.getElementById("width");
 const heightInput = document.getElementById("height");
 const resizedImage = document.getElementById("resized-image");
+const imageGallery = document.getElementById("image-gallery");
 
 function updateImages() {
     fetch("/api/getImages")
@@ -15,9 +16,13 @@ function updateImages() {
                 option.textContent = image;
                 option.value = image;
                 if (imageSelect.querySelector(`option[value="${image}"]`)) {
-                    return; // Skip if the option already exists
+                    return;
                 }
                 imageSelect.appendChild(option);
+                const imageElement = document.createElement("img");
+                imageElement.src = `/images/${image}`;
+                imageElement.alt = image;
+                imageGallery.appendChild(imageElement);
             });
         })
         .catch((error) => {

@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const getImages = Router();
 getImages.get("/", (_req, res) => {
-    const imagesFolderPath = path.resolve(__dirname, "../../../images");
+    const imagesFolderPath = path.join(__dirname, "../../../images");
     if (!fs.existsSync(imagesFolderPath)) {
         res.status(404).json({ error: "Images folder not found." });
         return;
