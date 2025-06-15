@@ -1,7 +1,7 @@
 import { Router } from "express";
 import fs from "fs";
 import path from "path";
-import sharp from "sharp";
+import processImage from "../../utilities/processImage.js";
 import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,17 +31,16 @@ resizeImage.post("/", async (req, res) => {
         console.log("Image already exists.");
         return;
     }
-    sharp(imagePath)
-        .resize(w, h)
-        .toFile(imageOutputPath, (err) => {
-        if (err) {
-            console.error("Error processing image:", err);
-            res.status(500).json({ error: "Error processing image." });
-            return;
-        }
-        res.set("Content-Type", "image/jpeg");
-        res.sendFile(imageOutputPath);
-        console.log("Image was resized and saved successfully.");
-    });
+    try {
+        await processImage(imagePath, w, h, imageOutputPath);
+    }
+    catch (err) {
+        console.error("Error processing image:", err);
+        res.status(500).json({ error: "Error processing image." });
+        return;
+    }
+    res.set("Content-Type", "image/jpeg");
+    res.sendFile(imageOutputPath);
+    console.log("Image was resized and saved successfully.");
 });
 export default resizeImage;
